@@ -9,11 +9,15 @@ from app.config import get_settings
 
 settings = get_settings()
 
+# Railway free tier limits connections; use conservative pool sizing
+_pool_size = 5 if settings.environment == "production" else 20
+_max_overflow = 5 if settings.environment == "production" else 10
+
 engine = create_async_engine(
     settings.async_database_url,
     echo=settings.debug,
-    pool_size=20,
-    max_overflow=10,
+    pool_size=_pool_size,
+    max_overflow=_max_overflow,
     pool_pre_ping=True,
 )
 

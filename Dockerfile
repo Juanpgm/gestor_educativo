@@ -37,6 +37,7 @@ COPY templates/ ./templates/
 
 # Create runtime directories
 RUN mkdir -p templates/diplomas templates/certificados uploads generated && \
+    chmod +x scripts/start.sh && \
     chown -R appuser:appuser /app
 
 USER appuser

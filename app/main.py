@@ -51,4 +51,18 @@ app.include_router(email.router, prefix=PREFIX)
 
 @app.get("/health", tags=["Health"])
 async def health_check():
-    return {"status": "ok", "version": settings.app_version}
+    from sqlalchemy import text
+    from app.database import AsyncSessionLocal
+
+    try:
+        async with AsyncSessionLocal() as session:
+            await session.execute(text("SELECT 1"))
+        db_status = "ok"
+    except Exception as e:
+        db_status = f"error: {type(e).__name__}"
+
+    return {
+        "status": "ok" if db_status == "ok" else "degraded",
+        "version": settings.app_version,
+        "database": db_status,
+    }

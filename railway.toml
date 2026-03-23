@@ -8,4 +8,3 @@ restartPolicyMaxRetries = 3
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
-dockerfileNoCache = true

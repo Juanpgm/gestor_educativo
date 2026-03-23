@@ -32,6 +32,8 @@ COPY app/ ./app/
 COPY alembic/ ./alembic/
 COPY alembic.ini .
 COPY pyproject.toml .
+COPY scripts/ ./scripts/
+COPY templates/ ./templates/
 
 # Create runtime directories
 RUN mkdir -p templates/diplomas templates/certificados uploads generated && \
@@ -41,4 +43,5 @@ USER appuser
 
 EXPOSE 8000
 
+# Railway overrides CMD via railway.toml startCommand
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
